@@ -69,7 +69,6 @@ export const Button = styled.button`
 
 export const Response = styled.div`
   width: 400px;
-  min-height: 100px;
   height: fit-content;
   margin: 20px;
   padding: 20px;

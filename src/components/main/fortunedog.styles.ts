@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ContentsWrapper = styled.div`
-  height: 800px;
+  height: 840px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   display: flex;
@@ -69,7 +69,8 @@ export const Button = styled.button`
 
 export const Response = styled.div`
   width: 400px;
-  height: 400px;
+  min-height: 100px;
+  height: fit-content;
   margin: 20px;
   padding: 20px;
   line-height: 1.5;

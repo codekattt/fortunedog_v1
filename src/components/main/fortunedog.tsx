@@ -164,7 +164,7 @@ export default function FortuneDogPage() {
         </S.ImgWrapper>
 
         <S.Response>
-          {loading && <div>운세 알아보는 중..!</div>}
+          {loading && <div>오늘의 운세 물어오는 중..!</div>}
           {response && <TypingEffect text={response} />}
         </S.Response>
         {selected && <S.Button onClick={handleReset}>다시하기</S.Button>}

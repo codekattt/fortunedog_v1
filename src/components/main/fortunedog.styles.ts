@@ -24,6 +24,10 @@ export const ContentsWrapper = styled.div`
     font-weight: 400;
     color: #9c9c9c;
   }
+
+  @media (max-width: 480px) {
+    width: 95%;
+  }
 `;
 
 export const InputWrapper = styled.div`
@@ -45,6 +49,10 @@ export const Input = styled.input`
   border-radius: 5px;
   padding: 4px 14px;
   margin: 10px 4px;
+
+  @media (max-width: 480px) {
+    width: 100px;
+  }
 `;
 
 export const Button = styled.button`
@@ -68,6 +76,10 @@ export const Response = styled.div`
   text-align: left;
   background-color: lightblue;
   border-radius: 10px;
+
+  @media (max-width: 480px) {
+    width: 95%;
+  }
 `;
 
 export const Img = styled.img`
@@ -86,5 +98,9 @@ export const ImgWrapper = styled.div`
 
   & div > div {
     margin-top: 10px;
+  }
+
+  @media (max-width: 480px) {
+    width: 95%;
   }
 `;

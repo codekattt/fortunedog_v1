@@ -1,31 +1,21 @@
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import getChatGPTResponse from "@/src/api/openai";
-import TypingEffect from "@/src/components/TypingEffetc";
+import TypingEffect from "../TypingEffect";
 import * as S from "./fortunedog.styles";
 
+const DatePicker = dynamic(() => import("../DatePickerWrapper"), { ssr: false });
+const StyledInput = S.Input.withComponent("input");
+
 export default function FortuneDogPage() {
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
   const [response, setResponse] = useState("");
   const [selected, setSelected] = useState(false);
   const [name, setName] = useState("");
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
-  };
-
-  const handleYearInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setYear(event.target.value);
-  };
-
-  const handleMonthInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMonth(event.target.value);
-  };
-
-  const handleDayInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDay(event.target.value);
   };
 
   const handleImageClick = async (prompt: string) => {
@@ -43,33 +33,19 @@ export default function FortuneDogPage() {
     setSelected(false);
     setLoading(false);
     setName("");
-    setYear("");
-    setMonth("");
-    setDay("");
-  };
-
-  const isValidDate = (year: string, month: string, day: string) => {
-    const yearNum = parseInt(year, 10);
-    const monthNum = parseInt(month, 10);
-    const dayNum = parseInt(day, 10);
-    if (
-      yearNum > 1900 &&
-      yearNum <= new Date().getFullYear() &&
-      monthNum >= 1 &&
-      monthNum <= 12 &&
-      dayNum >= 1 &&
-      dayNum <= 31
-    ) {
-      return true;
-    }
-    return false;
+    setBirthDate(null);
   };
 
   const createPrompt = (tone: string) => {
-    if (!isValidDate(year, month, day)) {
+    if (!birthDate) {
       alert("유효한 생년월일을 입력해주세요.");
       return;
     }
+
+    const year = birthDate.getFullYear();
+    const month = birthDate.getMonth() + 1;
+    const day = birthDate.getDate();
+
     return `내 이름은 ${name}이야. ${year}년 ${month}월 ${day}일 생이야. ${tone} 오늘의 운세를 알려줘. 다섯문장으로 간결하게 이모티콘도 쓰면서 말해줘`;
   };
 
@@ -80,44 +56,27 @@ export default function FortuneDogPage() {
         <h4>
           이름과 생일을 적고
           <br />
-          운세를 봐주길 원하는 댕댕를 클릭하면,
+          운세를 봐주길 원하는 댕댕이를 클릭하면,
           <br />
           댕댕이가 오늘의 운세를 봐줘요!
         </h4>
-        <S.InputWrapper>
-          <S.Input
-            type="text"
-            value={name}
-            onChange={handleNameInput}
-            placeholder="이름이 뭐야?"
-          />
-          <S.InputGroup>
-            <S.Input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={year}
-              onChange={handleYearInput}
-              placeholder="태어난 년도"
-            />
-            <S.Input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={month}
-              onChange={handleMonthInput}
-              placeholder="태어난 월"
-            />
-            <S.Input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={day}
-              onChange={handleDayInput}
-              placeholder="태어난 일"
-            />
-          </S.InputGroup>
-        </S.InputWrapper>
+        <h4>이름</h4>
+        <S.Input value={name} onChange={handleNameInput} placeholder="10자 이내로 입력하세요"/>
+        
+        <h4>생년월일</h4>
+        {/* DatePicker를 동적 로드로 설정 */}
+        <DatePicker
+          selected={birthDate}
+          onChange={setBirthDate}
+          dateFormat="yyyy년 MM월 dd일"
+          showYearDropdown
+          showMonthDropdown
+          dropdownMode="select"
+          maxDate={new Date()}
+          placeholderText="생년월일을 선택하세요"
+          customInput={<StyledInput />}
+          locale="ko"
+        />
         <S.ImgWrapper>
           <div>
             <S.Img
@@ -125,13 +84,13 @@ export default function FortuneDogPage() {
                 const prompt = createPrompt("생기발랄한 말투로");
                 if (prompt) handleImageClick(prompt);
               }}
-              src="./img/dog1.png"
+              src="./img/sigor.jpg"
               style={{
                 cursor: selected ? "default" : "pointer",
               }}
               alt="운세 1"
             />
-            <div>활기찬 점박이</div>
+            <S.ImgText>점박이</S.ImgText>
           </div>
           <div>
             <S.Img
@@ -139,13 +98,13 @@ export default function FortuneDogPage() {
                 const prompt = createPrompt("화난 말투와 반말로");
                 if (prompt) handleImageClick(prompt);
               }}
-              src="./img/dog3.png"
+              src="./img/angry.jpg"
               style={{
                 cursor: selected ? "default" : "pointer",
               }}
               alt="운세 2"
             />
-            <div>화난 치와와</div>
+            <S.ImgText>말티즈</S.ImgText>
           </div>
           <div>
             <S.Img
@@ -153,13 +112,13 @@ export default function FortuneDogPage() {
                 const prompt = createPrompt("다정한 말투와 존댓말로");
                 if (prompt) handleImageClick(prompt);
               }}
-              src="./img/dog2.png"
+              src="./img/golden.png"
               style={{
                 cursor: selected ? "default" : "pointer",
               }}
               alt="운세 3"
             />
-            <div>다정한 리트리버</div>
+            <S.ImgText>리트리버</S.ImgText>
           </div>
         </S.ImgWrapper>
 
@@ -167,7 +126,7 @@ export default function FortuneDogPage() {
           {loading && <div>오늘의 운세 물어오는 중..!</div>}
           {response && <TypingEffect text={response} />}
         </S.Response>
-        {selected && <S.Button onClick={handleReset}>다시하기</S.Button>}
+        {selected && <S.ButtonWrapper><S.Button>공유하기</S.Button><S.Button onClick={handleReset}>다시하기</S.Button></S.ButtonWrapper>}
       </S.ContentsWrapper>
     </S.Wrapper>
   );

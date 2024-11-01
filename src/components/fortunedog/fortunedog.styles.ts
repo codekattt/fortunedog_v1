@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const ContentsWrapper = styled.div`
+export const ContentsWrapper = styled.section`
   width: 100%;
   max-width: 600px;
   background-color: #ffffff;
@@ -44,7 +44,7 @@ export const ContentsWrapper = styled.div`
   }
 `;
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.section`
   width: 100%;
   margin-top: 40px;
 `;
@@ -107,7 +107,7 @@ export const Button = styled.button`
   }
 `;
 
-export const Response = styled.div`
+export const Response = styled.section`
   width: 100%;
   max-width: 600px;
   margin: 40px 0;
@@ -152,13 +152,13 @@ export const Img = styled.img`
   }
 `;
 
-export const ImgText = styled.div`
+export const ImgText = styled.figcaption`
   margin-top: 8px;
   text-align: center;
   font-size: clamp(12px, 2vw, 16px);
 `;
 
-export const ImgWrapper = styled.div`
+export const ImgWrapper = styled.figure`
   display: flex;
   justify-content: center;
   gap: 20px;

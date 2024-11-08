@@ -4,7 +4,9 @@ import getChatGPTResponse from "@/src/api/openai";
 import TypingEffect from "../TypingEffect";
 import * as S from "./fortunedog.styles";
 
-const DatePicker = dynamic(() => import("../DatePickerWrapper"), { ssr: false });
+const DatePicker = dynamic(() => import("../DatePickerWrapper"), {
+  ssr: false,
+});
 const StyledInput = S.Input.withComponent("input");
 
 export default function FortuneDogPage() {
@@ -21,8 +23,15 @@ export default function FortuneDogPage() {
   const handleImageClick = async (prompt: string) => {
     if (!selected && !loading) {
       setLoading(true);
-      const chatResponse = await getChatGPTResponse(prompt);
-      setResponse(chatResponse || "No response from API");
+      let chatResponse = await getChatGPTResponse(prompt);
+
+      if (chatResponse) {
+        chatResponse = chatResponse.replace(/:/g, "");
+      } else {
+        chatResponse = "No response from API";
+      }
+
+      setResponse(chatResponse);
       setSelected(true);
       setLoading(false);
     }
@@ -46,7 +55,7 @@ export default function FortuneDogPage() {
     const month = birthDate.getMonth() + 1;
     const day = birthDate.getDate();
 
-    return `내 이름은 ${name}이야. ${year}년 ${month}월 ${day}일 생이야. ${tone} 오늘의 운세를 알려줘. 다섯문장으로 간결하게 이모티콘도 쓰면서 말해줘`;
+    return `내 이름은 ${name}이야. ${year}년 ${month}월 ${day}일 생이야. ${tone} 오늘의 운세를 알려줘. 애정운, 직업/학업운, 건강운, 재물운 파트로 나눠 각각 얘기해주고, 종합한 총운세까지 알려줘.`;
   };
 
   return (
@@ -56,13 +65,17 @@ export default function FortuneDogPage() {
         <h4>
           이름과 생일을 적고
           <br />
-          운세를 봐주길 원하는 댕댕이를 클릭하면,
+          운세를 봐주길 원하는 <span>댕댕이를 클릭하면,</span>
           <br />
           댕댕이가 오늘의 운세를 봐줘요!
         </h4>
         <h4>이름</h4>
-        <S.Input value={name} onChange={handleNameInput} placeholder="10자 이내로 입력하세요"/>
-        
+        <S.Input
+          value={name}
+          onChange={handleNameInput}
+          placeholder="10자 이내로 입력하세요"
+        />
+
         <h4>생년월일</h4>
         {/* DatePicker를 동적 로드로 설정 */}
         <DatePicker
@@ -81,7 +94,7 @@ export default function FortuneDogPage() {
           <div>
             <S.Img
               onClick={() => {
-                const prompt = createPrompt("생기발랄한 말투로");
+                const prompt = createPrompt("활기찬 말투로");
                 if (prompt) handleImageClick(prompt);
               }}
               src="./img/sigor.jpg"
@@ -95,7 +108,7 @@ export default function FortuneDogPage() {
           <div>
             <S.Img
               onClick={() => {
-                const prompt = createPrompt("화난 말투와 반말로");
+                const prompt = createPrompt("짜증섞인 말투와 반말로");
                 if (prompt) handleImageClick(prompt);
               }}
               src="./img/angry.jpg"
@@ -126,7 +139,12 @@ export default function FortuneDogPage() {
           {loading && <div>오늘의 운세 물어오는 중..!</div>}
           {response && <TypingEffect text={response} />}
         </S.Response>
-        {selected && <S.ButtonWrapper><S.Button>공유하기</S.Button><S.Button onClick={handleReset}>다시하기</S.Button></S.ButtonWrapper>}
+        {selected && (
+          <S.ButtonWrapper>
+            <S.Button>공유하기</S.Button>
+            <S.Button onClick={handleReset}>다시하기</S.Button>
+          </S.ButtonWrapper>
+        )}
       </S.ContentsWrapper>
     </S.Wrapper>
   );

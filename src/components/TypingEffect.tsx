@@ -1,5 +1,6 @@
-// src/components/TypingEffect.tsx
 import React, { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import 'react-typist/dist/Typist.css';
 
 interface TypingEffectProps {
   text: string;
@@ -14,12 +15,12 @@ const TypingEffect: React.FC<TypingEffectProps> = ({ text }) => {
       const timeoutId = setTimeout(() => {
         setDisplayedText((prev) => prev + text[index]);
         setIndex((prev) => prev + 1);
-      }, 100); // 100ms 간격으로 타이핑 효과
+      }, 25); 
       return () => clearTimeout(timeoutId);
     }
   }, [index, text]);
 
-  return <p>{displayedText}</p>;
+  return <ReactMarkdown className="markdown">{displayedText}</ReactMarkdown>;
 };
 
 export default TypingEffect;

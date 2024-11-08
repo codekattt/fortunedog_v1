@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.main`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,6 +30,10 @@ export const ContentsWrapper = styled.section`
     line-height: 1.6;
     font-weight: 400;
     color: #6e6e73;
+
+    & span {
+      color: #007aff;
+    }
   }
 
   @media (max-width: 768px) {
@@ -116,6 +121,36 @@ export const Response = styled.section`
   background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: left;
+
+  & .markdown {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+
+  & .markdown h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+  }
+
+  & .markdown p {
+    margin-bottom: 1em;
+  }
+
+  & .markdown strong {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+  }
+
+  & .markdown em {
+    font-style: italic;
+  }
+
+  & p {
+    margin-bottom: 16px;
+  }
 
   @media (max-width: 768px) {
     padding: 30px;

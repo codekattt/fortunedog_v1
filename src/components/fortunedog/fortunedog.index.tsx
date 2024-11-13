@@ -55,7 +55,7 @@ export default function FortuneDogPage() {
     const month = birthDate.getMonth() + 1;
     const day = birthDate.getDate();
 
-    return `내 이름은 ${name}이야. ${year}년 ${month}월 ${day}일 생이야. ${tone} 오늘의 운세를 알려줘. 애정운, 직업/학업운, 건강운, 재물운 파트로 나눠 각각 얘기해주고, 종합한 총운세까지 알려줘.`;
+    return `내 이름은 "${name}"이야. "${year}년 ${month}월 ${day}일 생"이야. ${tone} 오늘의 운세를 알려줘. 애정운, 직업/학업운, 건강운, 재물운 파트로 나눠 각각 얘기해주고, 종합한 총운세까지 알려줘.`;
   };
 
   return (
@@ -81,11 +81,11 @@ export default function FortuneDogPage() {
         <DatePicker
           selected={birthDate}
           onChange={setBirthDate}
-          dateFormat="yyyy년 MM월 dd일"
-          showYearDropdown
-          showMonthDropdown
-          dropdownMode="select"
-          maxDate={new Date()}
+          dateFormat="yyyy년 MM월 dd일" // 연/월/일 형식
+          showYearDropdown // 연도 드롭다운 활성화
+          showMonthDropdown // 월 드롭다운 활성화
+          dropdownMode="select" // 드롭다운 선택 모드
+          maxDate={new Date()} // 현재 날짜까지 선택 가능
           placeholderText="생년월일을 선택하세요"
           customInput={<StyledInput />}
           locale="ko"
@@ -94,14 +94,14 @@ export default function FortuneDogPage() {
           <div>
             <S.Img
               onClick={() => {
-                const prompt = createPrompt("활기찬 말투로");
+                const prompt = createPrompt("활기찬 말투로 친근하게");
                 if (prompt) handleImageClick(prompt);
               }}
               src="./img/sigor.jpg"
               style={{
                 cursor: selected ? "default" : "pointer",
               }}
-              alt="운세 1"
+              alt="점박이가 전해주는 운세"
             />
             <S.ImgText>점박이</S.ImgText>
           </div>
@@ -115,21 +115,21 @@ export default function FortuneDogPage() {
               style={{
                 cursor: selected ? "default" : "pointer",
               }}
-              alt="운세 2"
+              alt="말티즈가 전해주는 운세"
             />
             <S.ImgText>말티즈</S.ImgText>
           </div>
           <div>
             <S.Img
               onClick={() => {
-                const prompt = createPrompt("다정한 말투와 존댓말로");
+                const prompt = createPrompt("다정하고 정중한 말투로.");
                 if (prompt) handleImageClick(prompt);
               }}
               src="./img/golden.png"
               style={{
                 cursor: selected ? "default" : "pointer",
               }}
-              alt="운세 3"
+              alt="리트리버가 전해주는 운세"
             />
             <S.ImgText>리트리버</S.ImgText>
           </div>
